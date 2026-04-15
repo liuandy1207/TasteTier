@@ -6,5 +6,5 @@ export default defineConfig({
 });
 
 export default {
-  base: '/your-repo-name/',
+  base: 'TasteTier',
 }
