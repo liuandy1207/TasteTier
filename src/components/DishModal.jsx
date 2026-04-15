@@ -20,18 +20,16 @@ export default function DishModal({ dish, restaurant, onClose }) {
 
   return (
     <div
+      onClick={onClose}
       style={{
         position: "fixed",
         inset: 0,
-        zIndex: 500,
+        zIndex: 0,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         padding: 16,
-        background: "rgba(0,0,0,0.75)",
-        backdropFilter: "blur(8px)",
       }}
-      onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -43,6 +41,7 @@ export default function DishModal({ dish, restaurant, onClose }) {
           width: "100%",
           boxShadow: "0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.08)",
           border: "1px solid rgba(255,255,255,0.08)",
+          pointerEvents: "all",
         }}
       >
         {/* Dish image / emoji hero */}

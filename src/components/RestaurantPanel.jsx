@@ -11,17 +11,6 @@ export default function RestaurantPanel({ restaurant, onClose, onDishClick, isMo
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        onClick={onClose}
-        style={{
-          position: "fixed",
-          inset: 0,
-          background: "rgba(0,0,0,0.3)",
-          zIndex: 200,
-          backdropFilter: "blur(2px)",
-        }}
-      />
 
       {/* Panel */}
       <div

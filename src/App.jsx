@@ -14,6 +14,11 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markersRef = useRef([]);
+//   const onPinClickRef = useRef(onPinClick);
+
+//   useEffect(() => {
+//     onPinClickRef.current = onPinClick; // 👈 add this
+//   }, [onPinClick]);
 
   useEffect(() => {
     if (leafletMapRef.current) return;
@@ -23,6 +28,9 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
       center: [mapCenter.lat, mapCenter.lng],
       zoom: mapZoom,
       zoomControl: false,
+      fadeAnimation: true, 
+      zoomAnimation: true,
+      markerZoomAnimation: true,
     });
 
     // Dark map tiles (CartoDB dark matter — no API key needed)
@@ -30,6 +38,7 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 19,
+      keepBuffer: 4, // preload tiles around viewport
     }).addTo(map);
 
     // Zoom control bottom-right
@@ -81,7 +90,7 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
     });
   }, [selectedRestaurant]);
 
-  return <div ref={mapRef} style={{ width: "100%", height: "100%" }} />;
+  return <div ref={mapRef} style={{ width: "100%", height: "100%" , zIndex: 0}} />;
 }
 
 export default function App() {
