@@ -73,10 +73,10 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
   // Pan to selected restaurant
   useEffect(() => {
     if (!leafletMapRef.current || !selectedRestaurant) return;
-    leafletMapRef.current.panTo([selectedRestaurant.lat, selectedRestaurant.lng], {
-      animate: true,
-      duration: 0.5,
-    });
+    // leafletMapRef.current.panTo([selectedRestaurant.lat, selectedRestaurant.lng], {
+    //   animate: true,
+    //   duration: 0.5,
+    // });
 
     // Update pin styles
     markersRef.current.forEach(({ id, el }) => {
