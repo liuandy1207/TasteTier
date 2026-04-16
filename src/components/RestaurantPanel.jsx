@@ -3,6 +3,8 @@
 // details and the tier list. Adapts to mobile vs desktop.
 // ============================================================
 import TierList from "./TierList.jsx";
+import ShareButton from "./ShareButton.jsx";
+
 
 export default function RestaurantPanel({ restaurant, onClose, onDishClick, isMobile }) {
   if (!restaurant) return null;

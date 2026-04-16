@@ -7,13 +7,16 @@ import RestaurantPanel from "./components/RestaurantPanel.jsx";
 import DishModal from "./components/DishModal.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import { useMapState } from "./hooks/useMapState.js";
-import restaurants from "./data/restaurants.js";
+//import restaurants from "./data/restaurants.js";
+import { useRestaurants } from './hooks/useRestaurants.js'
 
 // --- Leaflet map rendered directly (no react-leaflet needed) ---
 function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, mapZoom }) {
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markersRef = useRef([]);
+
+
 //   const onPinClickRef = useRef(onPinClick);
 
 //   useEffect(() => {
@@ -52,7 +55,7 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
       el.className = "custom-pin";
       el.innerHTML = `
         <div class="pin-bubble" data-id="${r.id}">
-          <span class="pin-emoji">${r.coverEmoji}</span>
+          <span class="pin-emoji">${r.cover_emoji}</span>
         </div>
       `;
       el.style.cssText = "cursor:pointer;position:relative;";
@@ -94,6 +97,8 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
 }
 
 export default function App() {
+  const { restaurants, loading, error } = useRestaurants()
+  
   const {
     selectedRestaurant,
     selectedDish,
@@ -103,7 +108,7 @@ export default function App() {
     closeRestaurant,
     openDish,
     closeDish,
-  } = useMapState();
+  } = useMapState(restaurants);
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
 
@@ -112,6 +117,9 @@ export default function App() {
     window.addEventListener("resize", handler);
     return () => window.removeEventListener("resize", handler);
   }, []);
+
+  if (loading) return <div style={{ color: '#fff', padding: 40, background: '#0a0a14', width: '100vw', height: '100vh' }}>Loading...</div>
+  if (error) return <div style={{ color: 'red', padding: 40 }}>Error: {error}</div>
 
   return (
     <div style={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden" }}>

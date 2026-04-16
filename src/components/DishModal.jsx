@@ -1,4 +1,5 @@
 import { TIER_LABELS } from "../data/restaurants.js";
+import ShareButton from "./ShareButton.jsx";
 
 function getDishTier(restaurant, dishId) {
   for (const [tier, dishes] of Object.entries(restaurant.tierList)) {
@@ -48,16 +49,33 @@ export default function DishModal({ dish, restaurant, onClose }) {
         </button>
       </div>
 
+      
+
       <h3 style={{ margin: "0 0 4px", color: "#fff", fontFamily: "'Sora', sans-serif", fontWeight: 700, fontSize: 22, letterSpacing: "-0.02em" }}>
         {dish.name}
       </h3>
-      <div style={{ color: "rgba(255,255,255,0.4)", fontSize: 12, fontFamily: "'Sora', sans-serif", marginBottom: 16 }}>
-        {restaurant.name} · {restaurant.cuisine}
-      </div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+  <div
+    style={{
+      color: "rgba(255,255,255,0.4)",
+      fontSize: 12,
+      fontFamily: "'Sora', sans-serif",
+    }}
+  >
+    {restaurant.name} · {restaurant.cuisine}
+  </div>
+
+  <ShareButton
+    url={`${window.location.origin}?restaurant=${restaurant.id}&dish=${dish.id}`}
+    label="Share dish"
+  />
+</div>
+      
       <div style={{ height: 1, background: "rgba(255,255,255,0.07)", marginBottom: 16 }} />
       <p style={{ margin: 0, color: "rgba(255,255,255,0.75)", fontFamily: "'Sora', sans-serif", fontSize: 14, lineHeight: 1.75 }}>
         {dish.description}
       </p>
+      
     </div>
   );
 }
