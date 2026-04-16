@@ -141,6 +141,25 @@ export default function App() {
         }}
       />
 
+      {/* Backdrop — closes modal on map click, sits below panel */}
+      {selectedDish && (
+        <div
+          onClick={closeDish}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 250,
+          }}
+        />
+        )}
+
+      {/* Dish detail modal */}
+      <DishModal
+        dish={selectedDish}
+        restaurant={selectedRestaurant}
+        onClose={closeDish}
+      />
+
       {/* Restaurant side/bottom panel */}
       <RestaurantPanel
         restaurant={selectedRestaurant}
@@ -149,12 +168,6 @@ export default function App() {
         isMobile={isMobile}
       />
 
-      {/* Dish detail modal */}
-      <DishModal
-        dish={selectedDish}
-        restaurant={selectedRestaurant}
-        onClose={closeDish}
-      />
     </div>
   );
 }
