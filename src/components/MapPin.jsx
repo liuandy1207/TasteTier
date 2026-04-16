@@ -17,8 +17,8 @@ export default function MapPin({ restaurant, isSelected, onClick, mapZoom }) {
       {/* Pin bubble */}
       <div
         style={{
-          width: isSelected ? 52 : 44,
-          height: isSelected ? 52 : 44,
+          width: isSelected ? 36 : 32,
+          height: isSelected ? 36 : 32,
           borderRadius: "50% 50% 50% 0",
           transform: "rotate(-45deg)",
           background: isSelected
