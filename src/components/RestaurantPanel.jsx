@@ -19,7 +19,7 @@ export default function RestaurantPanel({ restaurant, onClose, onDishClick, isMo
         style={{
           position: "fixed",
           zIndex: 300,
-          background: "linear-gradient(160deg, #0d0d1a 0%, #111122 100%)",
+          background: "linear-gradient(160deg, #191716 0%, #121517 100%)",
           boxShadow: "0 -4px 40px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08)",
           overflowY: "auto",
           ...(isMobile
@@ -57,7 +57,7 @@ export default function RestaurantPanel({ restaurant, onClose, onDishClick, isMo
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
             <div style={{ flex: 1, paddingRight: 12 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: 4 }}>
                 <span style={{ fontSize: 28 }}>{restaurant.coverEmoji}</span>
                 <h2
                   style={{

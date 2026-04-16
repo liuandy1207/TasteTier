@@ -22,7 +22,7 @@ export default function MapPin({ restaurant, isSelected, onClick, mapZoom }) {
           borderRadius: "50% 50% 50% 0",
           transform: "rotate(-45deg)",
           background: isSelected
-            ? "linear-gradient(135deg, #E8472A, #FF6B47)"
+            ? "linear-gradient(135deg, #86BBD8, #86BBD8)"
             : "linear-gradient(135deg, #1a1a2e, #16213e)",
           border: `3px solid ${isSelected ? "#FFD700" : "#ffffff"}`,
           boxShadow: isSelected

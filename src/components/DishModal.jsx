@@ -23,7 +23,7 @@ export default function DishModal({ dish, restaurant, onClose }) {
         left: "50%",
         transform: "translate(-50%, -50%)",
         zIndex: 600,
-        background: "linear-gradient(160deg, #0e0e1e 0%, #131328 100%)",
+        background: "linear-gradient(160deg, #191716 0%, #121517 100%)",
         borderRadius: 20,
         padding: 28,
         maxWidth: 500,
@@ -33,9 +33,9 @@ export default function DishModal({ dish, restaurant, onClose }) {
       }}
     >
       {/* Dish image / emoji hero */}
-      <div style={{ width: "100%", height: 160, borderRadius: 14, marginBottom: 20, overflow: "hidden", position: "relative", background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))", border: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        {dish.imageSrc ? (
-          <img src={dish.imageSrc} alt={dish.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      <div style={{ width: "100%", borderRadius: 14, marginBottom: 20, overflow: "hidden", position: "relative", background: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))", border: "1px solid rgba(255,255,255,0.07)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        {dish.image_src ? (
+          <img src={dish.image_src} alt={dish.name} style={{ width: "100%", height: "auto", objectFit: "fill" }} />
         ) : (
           <span style={{ fontSize: 72 }}>{dish.emoji}</span>
         )}

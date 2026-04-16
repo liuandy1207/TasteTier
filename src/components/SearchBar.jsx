@@ -27,7 +27,7 @@ export default function SearchBar({ restaurants, onSelect }) {
       {/* Input */}
       <div
         style={{
-          background: focused ? "#fff" : "rgba(255,255,255,0.97)",
+          background: focused ? "#FFF8F0" : "rgba(255,255,255,0.97)",
           borderRadius: focused ? "16px 16px 0 0" : 16,
           padding: "12px 16px",
           display: "flex",

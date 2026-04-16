@@ -122,9 +122,9 @@ function DishChip({ dish, tierColor, onClick }) {
       }}
     >
       {/* Dish image or emoji placeholder */}
-      {dish.imageSrc ? (
+      {dish.image_src ? (
         <img
-          src={dish.imageSrc}
+          src={dish.image_src}
           alt={dish.name}
           style={{
             width: 32,
