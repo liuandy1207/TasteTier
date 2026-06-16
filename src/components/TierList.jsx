@@ -2,7 +2,7 @@
 // TierList.jsx — Renders the S/A/B/C/D tier rows.
 // Dish images are clickable to open the dish detail panel.
 // ============================================================
-import { TIER_LABELS } from "../data/restaurants.js";
+import { TIER_LABELS } from "../data/tier-labels.js";
 
 export default function TierList({ tierList, onDishClick }) {
   const tiers = Object.entries(TIER_LABELS);

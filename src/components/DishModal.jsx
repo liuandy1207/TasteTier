@@ -1,4 +1,4 @@
-import { TIER_LABELS } from "../data/restaurants.js";
+import { TIER_LABELS } from "../data/tier-labels.js";
 import ShareButton from "./ShareButton.jsx";
 
 function getDishTier(restaurant, dishId) {

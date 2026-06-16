@@ -29,7 +29,7 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
     });
 
     // Dark map tiles (CartoDB dark matter — no API key needed)
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png", {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 19,

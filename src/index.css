@@ -20,12 +20,12 @@ body,
   position: relative;
 }
 .pin-bubble {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  background: linear-gradient(135deg, #1a1a2e, #16213e);
-  border: 3px solid #ffffff;
+  background: linear-gradient(135deg, #ffffff, #ffffff);
+  border: 3px solid #A4C3B2;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
@@ -35,28 +35,28 @@ body,
 
 .pin-bubble:hover {
   transform: rotate(-45deg) scale(1.15);
-  border-color: #ffd700;
-  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+  border-color: #6B9080;
+  box-shadow: 0 4px 20px #A4C3B2;
 }
 .pin-bubble.pin-selected {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #e8472a, #ff6b47);
-  border-color: #ffd700;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(360deg, #ffffff, #FFFFFF);
+  border-color: #6B9080;
   box-shadow:
-    0 4px 20px rgba(232, 71, 42, 0.6),
-    0 0 0 4px rgba(255, 215, 0, 0.3);
+    0 4px 20px #A4C3B2,
+    0 0 0 4px #A4C3B2;
 }
 
 .pin-emoji {
   transform: rotate(45deg);
-  font-size: 18px;
+  font-size: 10px;
   line-height: 1;
   display: block;
 }
 
 .pin-selected .pin-emoji {
-  font-size: 22px;
+  font-size: 16px;
 }
 
 /* Leaflet overrides */
