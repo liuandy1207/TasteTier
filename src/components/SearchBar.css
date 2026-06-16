@@ -1,0 +1,106 @@
+.searchbar-wrapper {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, calc(100vw - 32px));
+  z-index: 150;
+}
+
+.searchbar-input-row {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: border-radius 0.15s ease, background 0.15s ease;
+}
+
+.searchbar-input-row.focused {
+  background: #F6FFF8;
+  border-radius: 16px 16px 0 0;
+}
+
+.searchbar-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111;
+  background: transparent;
+}
+
+.searchbar-count {
+  background: #6B9080;
+  color: #fff;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.searchbar-dropdown {
+  background: #fff;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: none;
+  overflow: hidden;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.searchbar-empty {
+  padding: 14px 16px;
+  color: #888;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+}
+
+.searchbar-item {
+  width: 100%;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+}
+
+.searchbar-item:hover {
+  background: #f5f5f5;
+}
+
+.searchbar-item-emoji {
+  font-size: 22px;
+}
+
+.searchbar-item-name {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: #111;
+}
+
+.searchbar-item-cuisine {
+  font-family: "Inter", sans-serif;
+  font-size: 11px;
+  color: #888;
+}
+
+.searchbar-item-rating {
+  margin-left: auto;
+  color: #ffb700;
+  font-size: 12px;
+}
