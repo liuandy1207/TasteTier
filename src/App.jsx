@@ -7,7 +7,6 @@ import RestaurantPanel from "./components/RestaurantPanel.jsx";
 import DishModal from "./components/DishModal.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import { useMapState } from "./hooks/useMapState.js";
-//import restaurants from "./data/restaurants.js";
 import { useRestaurants } from './hooks/useRestaurants.js'
 
 // --- Leaflet map rendered directly (no react-leaflet needed) ---
@@ -15,13 +14,6 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markersRef = useRef([]);
-
-
-//   const onPinClickRef = useRef(onPinClick);
-
-//   useEffect(() => {
-//     onPinClickRef.current = onPinClick; // 👈 add this
-//   }, [onPinClick]);
 
   useEffect(() => {
     if (leafletMapRef.current) return;
@@ -37,7 +29,7 @@ function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, ma
     });
 
     // Dark map tiles (CartoDB dark matter — no API key needed)
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
       attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 19,
@@ -135,7 +127,7 @@ export default function App() {
       {/* Search bar */}
       <SearchBar restaurants={restaurants} onSelect={openRestaurant} />
 
-      {/* Attribution overlay to hide default leaflet attribution slightly */}
+      {/* Attribution overlay to hide default leaflet attribution slightly
       <div
         style={{
           position: "absolute",
@@ -143,11 +135,11 @@ export default function App() {
           left: 0,
           right: 0,
           height: 24,
-          background: "linear-gradient(transparent, rgba(0,0,0,0.3))",
+          background: "linear-gradient(transparent, rgba(253, 255, 247, 0.9))",
           pointerEvents: "none",
           zIndex: 10,
         }}
-      />
+      /> */}
 
       {/* Backdrop — closes modal on map click, sits below panel */}
       {selectedDish && (

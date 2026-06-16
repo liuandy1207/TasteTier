@@ -1,7 +1,7 @@
 {
-  "name": "restaurant-map",
+  "name": "TasteTier",
   "version": "1.0.0",
-  "description": "Personal restaurant map with tier lists",
+  "description": "personal restaurant map with tier lists",
   "type": "module",
   "scripts": {
     "dev": "vite",
