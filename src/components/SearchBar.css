@@ -20,7 +20,7 @@
 }
 
 .searchbar-input-row.focused {
-  background: #F6FFF8;
+  background: #FDEFF1;
   border-radius: 16px 16px 0 0;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .searchbar-count {
-  background: #6B9080;
+  background: #e01e37;
   color: #fff;
   border-radius: 20px;
   padding: 2px 8px;

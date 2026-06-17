@@ -3,94 +3,146 @@
 // search bar, restaurant panel, and dish modal.
 // ============================================================
 import { useEffect, useRef, useState } from "react";
+import { renderToString } from "react-dom/server";
+import HeartExclamationPin from "./components/HeartExclamationPin.jsx";
 import RestaurantPanel from "./components/RestaurantPanel.jsx";
 import DishModal from "./components/DishModal.jsx";
 import SearchBar from "./components/SearchBar.jsx";
 import { useMapState } from "./hooks/useMapState.js";
-import { useRestaurants } from './hooks/useRestaurants.js'
+import { useRestaurants } from "./hooks/useRestaurants.js";
 
 // --- Leaflet map rendered directly (no react-leaflet needed) ---
-function LeafletMap({ restaurants, selectedRestaurant, onPinClick, mapCenter, mapZoom }) {
+function LeafletMap({
+  restaurants,
+  selectedRestaurant,
+  onPinClick,
+  mapCenter,
+  mapZoom,
+}) {
   const mapRef = useRef(null);
   const leafletMapRef = useRef(null);
   const markersRef = useRef([]);
+  // ✅ Ref so zoom listener always reads the latest selected restaurant
+  const selectedRestaurantRef = useRef(selectedRestaurant);
 
+  // Keep ref in sync on every render
+  useEffect(() => {
+    selectedRestaurantRef.current = selectedRestaurant;
+  }, [selectedRestaurant]);
+
+  function scaleForZoom(zoom) {
+    const t = Math.max(0, Math.min(1, (zoom - 11) / (15 - 11)));
+    return 0.4 + t * 0.6; // 0.4 at zoom 11 and below, 1.0 at zoom 15+
+  }
+
+  function applyMarkerSizes(zoom) {
+    const L = window.L;
+    const zoomScale = scaleForZoom(zoom);
+
+    markersRef.current.forEach(({ id, marker, el }) => {
+      const isSelected = selectedRestaurantRef.current?.id === id; // ✅ reads ref, not closure
+      const scale = zoomScale * (isSelected ? 1.4 : 1);
+      const heartW = 40 * scale;
+      const heartH = 36 * scale;
+      const gapH   =  4 * scale;
+      const dotR   =  5 * scale;
+      const totalH = heartH + gapH + dotR * 2;
+
+      el.innerHTML = renderToString(
+  <HeartExclamationPin
+    emoji={restaurants.find((r) => r.id === id)?.cover_emoji ?? "📍"}
+    selected={isSelected}
+    scale={scale}  // ✅ SVG dimensions now match iconSize/iconAnchor exactly
+  />
+);
+
+      marker.setIcon(
+        L.divIcon({
+          className: "",
+          html: el,
+          iconSize:   [heartW, totalH],
+          iconAnchor: [heartW / 2, totalH],
+          popupAnchor:[0, -totalH],
+        })
+      );
+    });
+  }
+
+  // ── Init map once ──────────────────────────────────────────
   useEffect(() => {
     if (leafletMapRef.current) return;
-
     const L = window.L;
+
     const map = L.map(mapRef.current, {
       center: [mapCenter.lat, mapCenter.lng],
       zoom: mapZoom,
       zoomControl: false,
-      fadeAnimation: true, 
+      fadeAnimation: true,
       zoomAnimation: true,
       markerZoomAnimation: true,
     });
 
-    // Dark map tiles (CartoDB dark matter — no API key needed)
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png", {
-      attribution: '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
-      subdomains: "abcd",
-      maxZoom: 19,
-      keepBuffer: 4, // preload tiles around viewport
-    }).addTo(map);
+    L.tileLayer(
+      "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+      {
+        attribution:
+          '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>',
+        subdomains: "abcd",
+        maxZoom: 19,
+        keepBuffer: 4,
+      }
+    ).addTo(map);
 
-    // Zoom control bottom-right
     L.control.zoom({ position: "bottomright" }).addTo(map);
-
     leafletMapRef.current = map;
 
-    // Add markers
+    const initialScale = scaleForZoom(mapZoom);
     restaurants.forEach((r) => {
+      const scale = initialScale;
+      const heartW = 40 * scale;
+      const heartH = 36 * scale;
+      const gapH   =  4 * scale;
+      const dotR   =  5 * scale;
+      const totalH = heartH + gapH + dotR * 2;
+
       const el = document.createElement("div");
-      el.className = "custom-pin";
-      el.innerHTML = `
-        <div class="pin-bubble" data-id="${r.id}">
-          <span class="pin-emoji">${r.cover_emoji}</span>
-        </div>
-      `;
-      el.style.cssText = "cursor:pointer;position:relative;";
+      el.style.cssText = "cursor:pointer;";
+      el.innerHTML = renderToString(
+  <HeartExclamationPin emoji={r.cover_emoji} selected={false} scale={initialScale} />
+);
       el.addEventListener("click", () => onPinClick(r));
 
       const marker = L.marker([r.lat, r.lng], {
         icon: L.divIcon({
           className: "",
           html: el,
-          iconAnchor: [22, 44],
+          iconSize:   [heartW, totalH],
+          iconAnchor: [heartW / 2, totalH],
+          popupAnchor:[0, -totalH],
         }),
       }).addTo(map);
 
       markersRef.current.push({ id: r.id, marker, el });
     });
+
+    // ✅ zoom listener calls applyMarkerSizes which reads the ref
+    map.on("zoom", () => applyMarkerSizes(map.getZoom()));
   }, []);
 
-  // Pan to selected restaurant
+  // ── Re-style pins when selection changes ──────────────────
   useEffect(() => {
-    if (!leafletMapRef.current || !selectedRestaurant) return;
-    // leafletMapRef.current.panTo([selectedRestaurant.lat, selectedRestaurant.lng], {
-    //   animate: true,
-    //   duration: 0.5,
-    // });
-
-    // Update pin styles
-    markersRef.current.forEach(({ id, el }) => {
-      const bubble = el.querySelector(".pin-bubble");
-      if (!bubble) return;
-      if (id === selectedRestaurant.id) {
-        bubble.classList.add("pin-selected");
-      } else {
-        bubble.classList.remove("pin-selected");
-      }
-    });
+    if (!leafletMapRef.current) return;
+    applyMarkerSizes(leafletMapRef.current.getZoom());
   }, [selectedRestaurant]);
 
-  return <div ref={mapRef} style={{ width: "100%", height: "100%" , zIndex: 0}} />;
+  return (
+    <div ref={mapRef} style={{ width: "100%", height: "100%", zIndex: 0 }} />
+  );
 }
 
 export default function App() {
-  const { restaurants, loading, error } = useRestaurants()
-  
+  const { restaurants, loading, error } = useRestaurants();
+
   const {
     selectedRestaurant,
     selectedDish,
@@ -110,11 +162,32 @@ export default function App() {
     return () => window.removeEventListener("resize", handler);
   }, []);
 
-  if (loading) return <div style={{ color: '#fff', padding: 40, background: '#0a0a14', width: '100vw', height: '100vh' }}>Loading...</div>
-  if (error) return <div style={{ color: 'red', padding: 40 }}>Error: {error}</div>
+  if (loading)
+    return (
+      <div
+        style={{
+          color: "#fff",
+          padding: 40,
+          background: "#0a0a14",
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  if (error)
+    return <div style={{ color: "red", padding: 40 }}>Error: {error}</div>;
 
   return (
-    <div style={{ width: "100vw", height: "100vh", position: "relative", overflow: "hidden" }}>
+    <div
+      style={{
+        width: "100vw",
+        height: "100vh",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
       {/* Map */}
       <LeafletMap
         restaurants={restaurants}
@@ -151,7 +224,7 @@ export default function App() {
             zIndex: 250,
           }}
         />
-        )}
+      )}
 
       {/* Dish detail modal */}
       <DishModal
@@ -167,7 +240,6 @@ export default function App() {
         onDishClick={openDish}
         isMobile={isMobile}
       />
-
     </div>
   );
 }

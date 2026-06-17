@@ -16,49 +16,6 @@ body,
   background: #0a0a14;
 }
 
-.custom-pin {
-  position: relative;
-}
-.pin-bubble {
-  width: 24px;
-  height: 24px;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  background: linear-gradient(135deg, #ffffff, #ffffff);
-  border: 3px solid #A4C3B2;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.pin-bubble:hover {
-  transform: rotate(-45deg) scale(1.15);
-  border-color: #6B9080;
-  box-shadow: 0 4px 20px #A4C3B2;
-}
-.pin-bubble.pin-selected {
-  width: 32px;
-  height: 32px;
-  background: linear-gradient(360deg, #ffffff, #FFFFFF);
-  border-color: #6B9080;
-  box-shadow:
-    0 4px 20px #A4C3B2,
-    0 0 0 4px #A4C3B2;
-}
-
-.pin-emoji {
-  transform: rotate(45deg);
-  font-size: 10px;
-  line-height: 1;
-  display: block;
-}
-
-.pin-selected .pin-emoji {
-  font-size: 16px;
-}
-
 /* Leaflet overrides */
 .leaflet-control-attribution {
   background: rgba(0, 0, 0, 0.5) !important;
