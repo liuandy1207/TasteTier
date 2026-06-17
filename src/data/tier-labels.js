@@ -1,16 +1,27 @@
-// ============================================================
-// restaurants.js — All restaurant + dish data lives here.
-// Add new restaurants by copying the shape below.
-// Tier keys: S | A | B | C | D
-// Each dish needs: id, name, emoji (placeholder for real image),
-//   imageSrc (optional real img path), and description.
-// ============================================================
-
+// tier-labels.js
 export const TIER_LABELS = {
-  S: { label: "S", color: "#FF4D4D", bg: "#2a0000" },
-  A: { label: "A", color: "#FF9F0A", bg: "#2a1500" },
-  B: { label: "B", color: "#FFD60A", bg: "#2a2000" },
-  C: { label: "C", color: "#30D158", bg: "#002a0a" },
-  D: { label: "D", color: "#636366", bg: "#1a1a1a" },
-  F: { label: "D", color: "#636366", bg: "#1a1a1a" },
+  S: {
+    bg: "#f8c0c0",       // muted rose
+    color: "#d63030",    // strong red
+  },
+  A: {
+    bg: "#fad9a0",       // warm peach
+    color: "#c97010",    // warm orange
+  },
+  B: {
+    bg: "#f5f0a0",       // soft yellow
+    color: "#b89000",    // golden yellow
+  },
+  C: {
+    bg: "#b8e0b8",       // sage green
+    color: "#2d8c2d",    // medium green
+  },
+  D: {
+    bg: "#a8cbf0",       // sky blue
+    color: "#2266cc",    // medium blue
+  },
+  F: {
+    bg: "#c8c8c8",       // medium gray
+    color: "#666666",    // darker gray
+  },
 };

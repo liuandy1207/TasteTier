@@ -20,7 +20,7 @@ export default function TierList({ tierList, onDishClick }) {
               minHeight: 62,
               borderRadius: 8,
               overflow: "hidden",
-              border: "1px solid rgba(255,255,255,0.06)",
+              border: "1px solid rgba(0,0,0,0.08)",
             }}
           >
             {/* Tier label */}
@@ -52,7 +52,7 @@ export default function TierList({ tierList, onDishClick }) {
             <div
               style={{
                 flex: 1,
-                background: "rgba(255,255,255,0.025)",
+                background: "rgba(0,0,0,0.02)",
                 display: "flex",
                 alignItems: "center",
                 flexWrap: "wrap",
@@ -63,7 +63,7 @@ export default function TierList({ tierList, onDishClick }) {
               {dishes.length === 0 && (
                 <span
                   style={{
-                    color: "rgba(255,255,255,0.15)",
+                    color: "rgba(0,0,0,0.2)",
                     fontSize: 12,
                     fontFamily: "'Sora', sans-serif",
                     fontStyle: "italic",
@@ -94,8 +94,8 @@ function DishChip({ dish, tierColor, onClick }) {
       onClick={onClick}
       title={dish.name}
       style={{
-        background: "rgba(255,255,255,0.05)",
-        border: `1.5px solid rgba(255,255,255,0.1)`,
+        background: "rgba(0,0,0,0.04)",
+        border: `1.5px solid rgba(0,0,0,0.1)`,
         borderRadius: 10,
         padding: "4px 10px 4px 6px",
         cursor: "pointer",
@@ -103,20 +103,20 @@ function DishChip({ dish, tierColor, onClick }) {
         alignItems: "center",
         gap: 6,
         transition: "all 0.15s ease",
-        color: "#fff",
+        color: "#1a1a18",
         fontFamily: "'Sora', sans-serif",
         fontSize: 12,
         fontWeight: 500,
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.12)";
+        e.currentTarget.style.background = "rgba(0,0,0,0.08)";
         e.currentTarget.style.borderColor = tierColor;
         e.currentTarget.style.transform = "scale(1.06)";
         e.currentTarget.style.boxShadow = `0 0 12px ${tierColor}44`;
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+        e.currentTarget.style.background = "rgba(0,0,0,0.04)";
+        e.currentTarget.style.borderColor = "rgba(0,0,0,0.1)";
         e.currentTarget.style.transform = "scale(1)";
         e.currentTarget.style.boxShadow = "none";
       }}
@@ -139,7 +139,7 @@ function DishChip({ dish, tierColor, onClick }) {
             width: 32,
             height: 32,
             borderRadius: 6,
-            background: "rgba(255,255,255,0.08)",
+            background: "rgba(0,0,0,0.06)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -150,7 +150,14 @@ function DishChip({ dish, tierColor, onClick }) {
           {dish.emoji}
         </span>
       )}
-      <span style={{ whiteSpace: "nowrap", maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis" }}>
+      <span
+        style={{
+          whiteSpace: "nowrap",
+          maxWidth: 120,
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+        }}
+      >
         {dish.name}
       </span>
     </button>

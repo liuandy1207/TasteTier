@@ -47,18 +47,21 @@ export default function RestaurantPanel({ restaurant, onClose, onDishClick, isMo
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurant.address)}`;
 
   const handleShare = async () => {
-    const shareData = {
-      title: restaurant.name,
-      text: `Check out ${restaurant.name} on TasteTier!`,
-      url: mapsUrl,
-    };
-    if (navigator.share) {
-      try { await navigator.share(shareData); } catch (_) {}
-    } else {
-      await navigator.clipboard.writeText(`${restaurant.name} — ${restaurant.address}\n${mapsUrl}`);
-      alert("Copied to clipboard!");
-    }
+  const slug = restaurant.slug ?? restaurant.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+  const pageUrl = `https://tastetier.ca/${slug}`;
+
+  const shareData = {
+    title: restaurant.name,
+    text: `Check out ${restaurant.name} on TasteTier!`,
+    url: pageUrl,
   };
+  if (navigator.share) {
+    try { await navigator.share(shareData); } catch (_) {}
+  } else {
+    await navigator.clipboard.writeText(pageUrl);
+    alert("Copied to clipboard!");
+  }
+};
 
   return (
     <div className={`panel ${isMobile ? "mobile" : "desktop"}`}>
