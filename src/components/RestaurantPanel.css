@@ -153,6 +153,7 @@
   border-radius: 10px;
   padding: 10px 14px;
   margin-bottom: 20px;
+  margin-top: -8px;
   color: rgba(0, 0, 0, 0.55);
   font-size: 13px;
   line-height: 1.6;
@@ -228,4 +229,10 @@
 .panel-share:hover {
   background: #333330;
   border-color: #333330;
+}
+
+.panel-ratings-row {
+  display: flex;
+  gap: 24px;
+  align-items: center;
 }

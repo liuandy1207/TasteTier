@@ -49,12 +49,12 @@ function LeafletMap({
       const totalH = heartH + gapH + dotR * 2;
 
       el.innerHTML = renderToString(
-  <HeartExclamationPin
-    emoji={restaurants.find((r) => r.id === id)?.cover_emoji ?? "📍"}
-    selected={isSelected}
-    scale={scale}  // ✅ SVG dimensions now match iconSize/iconAnchor exactly
-  />
-);
+        <HeartExclamationPin
+          emoji={restaurants.find((r) => r.id === id)?.cover_emoji ?? "📍"}
+          selected={isSelected}
+          scale={scale}  // ✅ SVG dimensions now match iconSize/iconAnchor exactly
+        />
+      );
 
       marker.setIcon(
         L.divIcon({
@@ -108,8 +108,8 @@ function LeafletMap({
       const el = document.createElement("div");
       el.style.cssText = "cursor:pointer;";
       el.innerHTML = renderToString(
-  <HeartExclamationPin emoji={r.cover_emoji} selected={false} scale={initialScale} />
-);
+        <HeartExclamationPin emoji={r.cover_emoji} selected={false} scale={initialScale} />
+      );
       el.addEventListener("click", () => onPinClick(r));
 
       const marker = L.marker([r.lat, r.lng], {
@@ -127,6 +127,80 @@ function LeafletMap({
 
     // ✅ zoom listener calls applyMarkerSizes which reads the ref
     map.on("zoom", () => applyMarkerSizes(map.getZoom()));
+
+    // ── Current location dot ───────────────────────────────────
+    if (navigator.geolocation) {
+      let locationMarker = null;
+      let accuracyCircle = null;
+
+      // Inject the pulse keyframe animation once
+      if (!document.getElementById("location-pulse-style")) {
+        const style = document.createElement("style");
+        style.id = "location-pulse-style";
+        style.textContent = `
+          @keyframes location-pulse {
+            0%   { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      const updateLocation = (position) => {
+        const { latitude, longitude, accuracy } = position.coords;
+        const latlng = [latitude, longitude];
+
+        const locationEl = document.createElement("div");
+        locationEl.innerHTML = `
+          <div style="
+            width: 18px; height: 18px;
+            background: #4285F4;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.35);
+            position: relative;
+          ">
+            <div style="
+              position: absolute;
+              inset: -8px;
+              border-radius: 50%;
+              background: rgba(66,133,244,0.2);
+              animation: location-pulse 2s ease-out infinite;
+            "></div>
+          </div>
+        `;
+
+        const icon = L.divIcon({
+          className: "",
+          html: locationEl,
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
+        });
+
+        if (locationMarker) {
+          locationMarker.setLatLng(latlng);
+          accuracyCircle.setLatLng(latlng).setRadius(accuracy);
+        } else {
+          // Accuracy ring (the translucent blue halo)
+          accuracyCircle = L.circle(latlng, {
+            radius: accuracy,
+            color: "#4285F4",
+            fillColor: "#4285F4",
+            fillOpacity: 0.08,
+            weight: 1,
+            opacity: 0.3,
+          }).addTo(map);
+
+          locationMarker = L.marker(latlng, { icon, zIndexOffset: 1000 }).addTo(map);
+        }
+      };
+
+      navigator.geolocation.watchPosition(updateLocation, null, {
+        enableHighAccuracy: true,
+        maximumAge: 10000,
+      });
+    }
+    // ── End current location dot ───────────────────────────────
   }, []);
 
   // ── Re-style pins when selection changes ──────────────────

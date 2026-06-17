@@ -33,10 +33,9 @@ function StarRating({ value, label }) {
     );
   }
   return (
-    <div className="star-row">
+    <div className="star-row" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
       <span className="star-label">{label}</span>
       <div className="star-icons">{stars}</div>
-      <span className="star-value">{value.toFixed(1)}</span>
     </div>
   );
 }
@@ -44,23 +43,26 @@ function StarRating({ value, label }) {
 export default function RestaurantPanel({ restaurant, onClose, onDishClick, isMobile }) {
   if (!restaurant) return null;
 
+  // Support both camelCase (transformed) and snake_case (raw from Supabase)
+  const valueRating = restaurant.valueRating ?? restaurant.rating_value ?? restaurant.rating ?? 0;
+  const vibeRating  = restaurant.vibeRating  ?? restaurant.rating_vibe  ?? restaurant.rating ?? 0;
+
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurant.address)}`;
 
-const handleShare = async () => {
-  const pageUrl = window.location.href; // already has ?restaurant=slug in it
-
-  const shareData = {
-    title: restaurant.name,
-    text: `Check out ${restaurant.name} on TasteTier!`,
-    url: pageUrl,
+  const handleShare = async () => {
+    const pageUrl = window.location.href;
+    const shareData = {
+      title: restaurant.name,
+      text: `Check out ${restaurant.name} on TasteTier!`,
+      url: pageUrl,
+    };
+    if (navigator.share) {
+      try { await navigator.share(shareData); } catch (_) {}
+    } else {
+      await navigator.clipboard.writeText(pageUrl);
+      alert("Copied to clipboard!");
+    }
   };
-  if (navigator.share) {
-    try { await navigator.share(shareData); } catch (_) {}
-  } else {
-    await navigator.clipboard.writeText(pageUrl);
-    alert("Copied to clipboard!");
-  }
-};
 
   return (
     <div className={`panel ${isMobile ? "mobile" : "desktop"}`}>
@@ -76,7 +78,6 @@ const handleShare = async () => {
         <div className="panel-header">
           <div className="panel-header-left">
             <div className="panel-title-row">
-              <span className="panel-cover-emoji">{restaurant.coverEmoji}</span>
               <h2 className={`panel-name ${isMobile ? "mobile" : ""}`}>
                 {restaurant.name}
               </h2>
@@ -85,14 +86,14 @@ const handleShare = async () => {
               {restaurant.cuisine} · Visited {restaurant.visited}
             </div>
 
-            <div className="panel-ratings">
-              <StarRating value={restaurant.valueRating ?? restaurant.rating ?? 0} label="Value" />
-              <StarRating value={restaurant.vibeRating ?? restaurant.rating ?? 0} label="Vibe" />
+            {/* Side-by-side on desktop, stacked on mobile */}
+            <div
+              className="panel-ratings"
+              style={isMobile ? {} : { display: "flex", flexDirection: "row", gap: "20px", alignItems: "center" }}
+            >
+              <StarRating value={valueRating} label="Value" />
+              <StarRating value={vibeRating}  label="Vibe"  />
             </div>
-
-            {restaurant.note_value && (
-              <div className="panel-note">{restaurant.note_value}</div>
-            )}
           </div>
 
           <button className="panel-close" onClick={onClose}>✕</button>
