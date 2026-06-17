@@ -46,9 +46,8 @@ export default function RestaurantPanel({ restaurant, onClose, onDishClick, isMo
 
   const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurant.address)}`;
 
-  const handleShare = async () => {
-  const slug = restaurant.slug ?? restaurant.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
-  const pageUrl = `https://tastetier.ca/${slug}`;
+const handleShare = async () => {
+  const pageUrl = window.location.href; // already has ?restaurant=slug in it
 
   const shareData = {
     title: restaurant.name,
